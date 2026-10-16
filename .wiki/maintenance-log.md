@@ -22,3 +22,10 @@ Append-only history for wiki updates caused by scope work, implementation closeo
 - Pages: .wiki/how-to/vendor-snapshots.md
 - Verification: pnpm verify:vendor: PASS; git ls-files --stage vendor/sub2api vendor/CLIProxyAPI: two mode-160000 gitlinks
 - Residual risk: Fresh clones must initialize vendor submodules for source-backed tests; production Vite build does not depend on vendor checkout.
+
+## 2026-10-16T12:28:02Z [browser-converter]
+
+- Summary: Completed source publication and recursive fresh-clone verification; archived the single browser-converter implementation contract.
+- Pages: .wiki/concepts/architecture.md, .wiki/reference/conversion-contract.md, .wiki/how-to/cloudflare-pages.md, .wiki/how-to/vendor-snapshots.md
+- Verification: Implementation 151b6537b4cdf7caa79327fd90005a1c162a2559: remote SHA parity PASS; fresh recursive clone frozen install/check/verify:dist PASS; 73 unit tests and 6 browser tests PASS; Wiki and Scope checks PASS
+- Residual risk: No live OAuth account acceptance or Cloudflare deployment. Vendors require recursive checkout for source-backed tests.

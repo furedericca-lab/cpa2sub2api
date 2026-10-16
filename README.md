@@ -142,7 +142,7 @@ or bypassing GitHub push protection. Preserve upstream licenses and source. See
 
 Start with [AGENTS.md](AGENTS.md) and the [Wiki](.wiki/index.md).
 The owning implementation record is
-[browser-converter](.scopes/browser-converter/browser-converter-contract.md).
+[browser-converter](.scopes/archive/browser-converter/browser-converter-contract.md).
 
 ## Privacy Boundary
 

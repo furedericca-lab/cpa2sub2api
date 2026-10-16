@@ -1,6 +1,6 @@
 ---
 description: Local-only bidirectional CPA and sub2api conversion with static Pages deployment.
-status: in-progress
+status: completed
 ---
 
 # Browser Converter Contract
@@ -132,5 +132,22 @@ out of scope.
   the same commits and content digests. Updated cloning/verification instructions.
   Replacing the rejected, unpublished root commit removes inline vendor content
   from the publishable history. No force-push or upstream mutation is required.
+- Published implementation commit `151b6537b4cdf7caa79327fd90005a1c162a2559` to
+  `origin/main`; live remote SHA matched the local commit.
+- A fresh recursive remote clone retrieved both exact upstream pins. Frozen-lock
+  installation, all 73 unit tests, type check, production build, vendor integrity
+  and static-artifact verification passed in that clone.
+- Wiki rebuild/lint/doctor and Scope hygiene passed. Stopped the task-owned local
+  Pages emulator. No production deployment, real account validation or upstream
+  repository mutation occurred. Source implementation is complete; this record
+  is archived as documentation-only closeout.
 - Initial registry download reset; retried via a pnpm mirror for project
   dependencies only, without changing host-wide registry configuration.
+
+
+## Archive Record
+
+- Archived on 2026-10-16 under `.scopes/archive/browser-converter/`.
+- Archive purpose: preserve the completed browser-converter audit trail.
+- Future enhancements should use a new scope under `.scopes/<enhancement-scope>/`.
+- Archived docs should only change for factual errata or path-maintenance updates.
