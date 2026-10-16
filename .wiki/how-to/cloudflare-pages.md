@@ -12,7 +12,7 @@ related_files:
   - package.json
 tags: [deployment, cloudflare, security]
 last_checked: 2026-10-16
-updated: 2026-10-16T12:57:00Z
+updated: 2026-10-16T13:33:50Z
 ---
 
 # Deploy Static Assets To Cloudflare Pages
@@ -72,7 +72,7 @@ use credentials scoped to this account rather than relying on an ambient token
 for another account. Read-only API checks confirmed account access before
 creation; project creation and the successful upload then proved the write path.
 
-## Verified Production Deployment
+## Initial Production Deployment
 
 The owner explicitly authorized project creation and deployment on 2026-10-16.
 
@@ -101,6 +101,20 @@ The Git remote remains https://github.com/furedericca-lab/cpa2sub2api. No custom
 domain, momoe.org DNS, Git integration, analytics, backend or unrelated account
 setting was configured. Only synthetic account data was used for acceptance;
 live provider OAuth acceptance was not tested.
+
+## Interface Copy Release
+
+The production URL now serves deployment
+7ac6d1b3-e21a-4c43-829e-83e007ece410, completed at 2026-10-16T13:28:19Z from
+source 80f8eb6abd2005e8ba4e88f6c7d7ae1e5ccf4a65. The immutable release URL is
+https://7ac6d1b3.cpa2sub2api-e3k.pages.dev/.
+
+This release updates task labels, import instructions, warnings and help copy.
+Local checks passed 73 unit tests and 7 browser tests. Production HTML/JS/CSS
+matched dist/ byte for byte, with the actual local-only security headers.
+Unmodified production Chromium verified the new copy, expired-account wording,
+forward JSON download, reverse conversion and mobile help, with zero external
+runtime requests and page errors. Conversion behavior and CSS are unchanged.
 
 ## Post-Deployment Acceptance
 
@@ -132,4 +146,4 @@ routes because it has only a root workspace.
 
 Current documentation was retrieved during implementation/deployment. Repeat
 the post-deployment acceptance checks after future uploads; the evidence above
-describes the initial production deployment rather than all future versions.
+describes the recorded releases rather than all future versions.

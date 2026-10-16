@@ -1,6 +1,6 @@
 ---
 description: Rewrite user-facing copy around file conversion and import tasks.
-status: in_progress
+status: completed
 ---
 
 # Interface Copy Contract
@@ -17,7 +17,8 @@ labels converted accounts as usable, and describes limitations abstractly.
 
 ## Outcome
 
-Pending copy changes and browser acceptance.
+Published concise task-focused copy to https://cpa2sub2api-e3k.pages.dev/.
+Local and production browser checks passed without conversion behavior changes.
 
 ## Goals / Non-goals
 
@@ -79,3 +80,20 @@ None.
   import/expiry/clipboard guidance and modal keyboard-navigation regression.
 - Inspected desktop/mobile conversion and mobile guide screenshots. Layout and
   controls remain readable; no horizontal overflow in the tested narrow viewport.
+- pnpm pages:deploy succeeded on the selected account and production/main.
+  Deployment 7ac6d1b3-e21a-4c43-829e-83e007ece410 completed at
+  2026-10-16T13:28:19Z from 80f8eb6abd2005e8ba4e88f6c7d7ae1e5ccf4a65.
+- Production API status is success, uses_functions false. HTTPS HTML/JS/CSS
+  matched dist/ byte for byte; actual CSP and security headers remain active.
+- Unmodified production Chromium passed new heading/import text, expired-account
+  feedback, forward JSON download, reverse conversion and mobile help checks;
+  zero external requests or page errors. Only synthetic account fixtures used.
+- No unresolved scope-specific issues.
+
+
+## Archive Record
+
+- Archived on 2026-10-16 under `.scopes/archive/interface-copy/`.
+- Archive purpose: preserve the completed interface-copy audit trail.
+- Future enhancements should use a new scope under `.scopes/<enhancement-scope>/`.
+- Archived docs should only change for factual errata or path-maintenance updates.

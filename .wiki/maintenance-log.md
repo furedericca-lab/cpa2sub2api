@@ -36,3 +36,10 @@ Append-only history for wiki updates caused by scope work, implementation closeo
 - Pages: .wiki/how-to/cloudflare-pages.md
 - Verification: pnpm typecheck/test/verify:vendor and pages:deploy PASS; production API success; HTTPS HTML/JS/CSS byte parity; native CSP and real-browser four-provider bidirectional conversion/download/privacy acceptance PASS
 - Residual risk: Synthetic OAuth data only; Direct Upload has no automatic Git deployment; custom domains were not configured.
+
+## 2026-10-16T13:34:18Z [interface-copy]
+
+- Summary: Rewrote Chinese interface copy around file conversion/import tasks and published the verified Pages refresh.
+- Pages: .wiki/concepts/architecture.md, .wiki/how-to/cloudflare-pages.md
+- Verification: pnpm check PASS: 73 unit tests; browser:smoke: 7 PASS; production asset parity, security headers and live-browser copy/conversion/mobile acceptance PASS
+- Residual risk: Live checks use synthetic accounts; provider authentication remains outside this copy-only change.
