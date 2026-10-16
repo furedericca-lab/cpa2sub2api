@@ -24,14 +24,14 @@ test('desktop local-only conversion, privacy, selection, merged download and rel
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('request', (request) => { if (!request.url().startsWith('http://127.0.0.1:4178')) remoteRequests.push(request.url()); });
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('账号转换，留在本地。');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('账号文件互转');
   await expect(page.getByRole('button', { name: '开始转换' })).toBeDisabled();
   await mkdir('test-results', { recursive: true });
   await page.screenshot({ path: 'test-results/desktop-empty.png', fullPage: true });
   const original = [cpaFixture('codex'), cpaFixture('claude'), cpaFixture('gemini'), { type: 'unsupported', access_token: 'synthetic-secret' }];
   await page.getByLabel('源 JSON 内容').fill(JSON.stringify(original));
   await page.getByRole('button', { name: '开始转换' }).click();
-  await expect(page.getByText('3 个可用账号')).toBeVisible();
+  await expect(page.getByText('已转换 3 个账号')).toBeVisible();
   await expect(page.getByText('1 项未转换 · 查看原因')).toBeVisible();
   await page.getByRole('button', { name: '预览 JSON' }).first().click();
   const preview = page.getByRole('region', { name: 'JSON 预览' });
@@ -68,7 +68,7 @@ test('file upload, per-file download, reverse conversion and ZIP export', async 
   ]);
   await expect(page.getByText('已载入 2 个文件')).toBeVisible();
   await page.getByRole('button', { name: '开始转换' }).click();
-  await expect(page.getByText('1 个可用账号')).toBeVisible();
+  await expect(page.getByText('已转换 1 个账号')).toBeVisible();
   const singleEvent = page.waitForEvent('download');
   await page.getByRole('button', { name: '下载 claude.sub2api.json', exact: true }).click();
   expect((await singleEvent).suggestedFilename()).toBe('claude.sub2api.json');
@@ -97,7 +97,7 @@ test('mobile layout, empty/error states, mode invalidation and accessible guide'
   await page.getByRole('button', { name: '清空', exact: true }).click();
   await page.getByLabel('源 JSON 内容').fill(JSON.stringify(cpaFixture('antigravity')));
   await page.getByRole('button', { name: '开始转换' }).click();
-  await expect(page.getByText('1 个可用账号')).toBeVisible();
+  await expect(page.getByText('已转换 1 个账号')).toBeVisible();
   await page.screenshot({ path: 'test-results/mobile-results.png', fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.getByRole('button', { name: 'sub2api CPA', exact: true }).click();
@@ -116,8 +116,8 @@ test('unavailable localStorage does not block conversion', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('源 JSON 内容').fill(JSON.stringify(cpaFixture('claude')));
   await page.getByRole('button', { name: '开始转换' }).click();
-  await expect(page.getByText('1 个可用账号')).toBeVisible();
-  await expect(page.getByRole('status')).toContainText('偏好未保存');
+  await expect(page.getByText('已转换 1 个账号')).toBeVisible();
+  await expect(page.getByRole('status')).toContainText('设置仅本次生效');
 });
 
 test('directory import, ignored non-JSON files and removal preserve the actual batch', async ({ page }) => {
@@ -133,12 +133,12 @@ test('directory import, ignored non-JSON files and removal preserve the actual b
     await expect(page.getByText('已载入 2 个文件')).toBeVisible();
     await expect(page.getByRole('status')).toContainText('已忽略 1 个非 JSON 文件');
     await page.getByRole('button', { name: '开始转换' }).click();
-    await expect(page.getByText('2 个可用账号')).toBeVisible();
+    await expect(page.getByText('已转换 2 个账号')).toBeVisible();
     await page.getByLabel('移除文件 1', { exact: true }).click();
     await expect(page.getByText('等待转换')).toBeVisible();
     await expect(page.getByText('已载入 1 个文件')).toBeVisible();
     await page.getByRole('button', { name: '开始转换' }).click();
-    await expect(page.getByText('1 个可用账号')).toBeVisible();
+    await expect(page.getByText('已转换 1 个账号')).toBeVisible();
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
@@ -155,7 +155,7 @@ test('drag/drop JSON input and provider-filtered selection control exports', asy
   await transfer.dispose();
   await expect(page.getByText('已载入 1 个文件')).toBeVisible();
   await page.getByRole('button', { name: '开始转换' }).click();
-  await expect(page.getByText('2 个可用账号')).toBeVisible();
+  await expect(page.getByText('已转换 2 个账号')).toBeVisible();
   await page.getByLabel('筛选平台').selectOption('claude');
   await expect(page.getByLabel('选择 gemini@example.invalid', { exact: true })).toHaveCount(0);
   await page.getByLabel('全选可见账号').uncheck();
@@ -169,4 +169,44 @@ test('drag/drop JSON input and provider-filtered selection control exports', asy
   await page.getByLabel('全选可见账号').check();
   await page.getByLabel('全选可见账号').uncheck();
   await expect(page.getByRole('button', { name: '下载合并 JSON' })).toBeDisabled();
+});
+
+test('plain-language guidance covers imports, expired accounts and clipboard privacy', async ({ page }) => {
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/');
+  await expect(page).toHaveTitle('CPA ⇄ sub2api · 账号文件互转');
+  await expect(page.getByText('下载合并 JSON，在 sub2api「账号管理」中导入。')).toBeVisible();
+  await page.getByLabel('源 JSON 内容').fill(JSON.stringify({ ...cpaFixture('claude'), expired: '2020-01-01T00:00:00Z' }));
+  await page.getByRole('button', { name: '开始转换' }).click();
+  await expect(page.getByText('已转换 1 个账号')).toBeVisible();
+  await expect(page.getByText(/个可用账号/)).toHaveCount(0);
+  await page.locator('.entry-warnings summary').click();
+  await expect(page.getByText('令牌已过期，导入后需刷新。')).toBeVisible();
+  await page.getByRole('button', { name: '预览 JSON' }).click();
+  await page.getByRole('button', { name: '复制当前预览' }).click();
+  await expect(page.getByRole('status')).toHaveText(/已复制脱敏内容。导入账号请下载 JSON 文件。/);
+  expect(await page.evaluate(() => navigator.clipboard.readText())).not.toContain('synthetic-claude-refresh');
+  await page.getByLabel('显示凭据').check();
+  await page.getByRole('button', { name: '复制当前预览' }).click();
+  await expect(page.getByRole('status')).toHaveText(/已复制凭证，请留意剪贴板记录。/);
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('synthetic-claude-refresh');
+  await page.getByRole('button', { name: '使用说明', exact: true }).click();
+  const guide = page.getByRole('dialog', { name: '使用说明' });
+  for (const name of ['导入 sub2api', '导入 CLIProxyAPI', '支持哪些账号', '导入后的设置', '文件要求']) {
+    await expect(guide.getByRole('heading', { name, exact: true })).toBeVisible();
+  }
+  await expect(guide).toContainText('已过期的令牌需由目标服务刷新后使用。');
+  await expect(guide).toContainText('分组、计费、模型映射和代理请在目标服务中设置。');
+  await page.screenshot({ path: 'test-results/desktop-guide.png', fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await guide.getByRole('button', { name: '关闭使用说明' }).focus();
+  await page.keyboard.press('Shift+Tab');
+  await expect(guide.getByRole('link', { name: '参考项目' })).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(guide.getByRole('button', { name: '关闭使用说明' })).toBeFocused();
+  await page.screenshot({ path: 'test-results/mobile-guide.png', fullPage: true });
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'sub2api CPA', exact: true }).click();
+  await expect(page.getByText('下载 ZIP，解压后放入 CLIProxyAPI 的认证目录（auth-dir）。')).toBeVisible();
 });

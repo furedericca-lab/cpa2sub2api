@@ -3,8 +3,9 @@ title: Project Wiki Index
 type: wiki-index
 status: current
 generated_by: /root/.codex/skills/wiki-note/scripts/wiki_note.py
-updated: 2026-10-16T12:58:34Z
+updated: 2026-10-16T13:27:03Z
 ---
+
 
 
 
@@ -16,14 +17,14 @@ updated: 2026-10-16T12:58:34Z
 # Project Wiki Index
 
 <!-- BEGIN AUTO -->
-- Last rebuilt: 2026-10-16T12:58:34Z
+- Last rebuilt: 2026-10-16T13:27:03Z
 - Page count: 4
 
 ## By Type
 
 ### concept
 
-- [Browser-Local Architecture](concepts/architecture.md) | status: current | updated: 2026-10-16T12:20:00Z
+- [Browser-Local Architecture](concepts/architecture.md) | status: current | updated: 2026-10-16T13:26:21Z
 
 ### how-to
 
@@ -45,8 +46,8 @@ updated: 2026-10-16T12:58:34Z
 
 ## Recently Updated
 
+- 2026-10-16T13:26:21Z | [Browser-Local Architecture](concepts/architecture.md)
 - 2026-10-16T12:57:00Z | [Deploy Static Assets To Cloudflare Pages](how-to/cloudflare-pages.md)
-- 2026-10-16T12:20:00Z | [Browser-Local Architecture](concepts/architecture.md)
 - 2026-10-16T12:20:00Z | [Maintain Pinned Vendor Submodules](how-to/vendor-snapshots.md)
 - 2026-10-16T12:20:00Z | [Conversion Contract And Compatibility](reference/conversion-contract.md)
 
@@ -56,7 +57,7 @@ updated: 2026-10-16T12:58:34Z
 
 ## Code Navigation
 
-- [Browser-Local Architecture](concepts/architecture.md) | files: `src/conversion/`, `front/src/App.tsx`, `front/src/lib/settings.ts` ... | anchors: 0 | status: current
+- [Browser-Local Architecture](concepts/architecture.md) | files: `src/conversion/`, `front/src/App.tsx`, `front/src/components/ConversionGuide.tsx` ... | anchors: 0 | status: current
 - [Deploy Static Assets To Cloudflare Pages](how-to/cloudflare-pages.md) | files: `wrangler.jsonc`, `front/public/_headers`, `front/vite.config.ts` ... | anchors: 0 | status: current
 - [Maintain Pinned Vendor Submodules](how-to/vendor-snapshots.md) | files: `vendor/vendor-lock.json`, `.gitmodules`, `scripts/vendor.mjs` ... | anchors: 0 | status: current
 - [Conversion Contract And Compatibility](reference/conversion-contract.md) | files: `src/conversion/converter.ts`, `src/conversion/json.ts`, `src/conversion/types.ts` ... | anchors: 0 | status: current

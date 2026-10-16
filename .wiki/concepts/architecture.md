@@ -6,12 +6,14 @@ scope: browser-converter
 related_files:
   - src/conversion/
   - front/src/App.tsx
+  - front/src/components/ConversionGuide.tsx
+  - front/index.html
   - front/src/lib/settings.ts
   - front/public/_headers
   - pnpm-workspace.yaml
 tags: [architecture, privacy]
 last_checked: 2026-10-16
-updated: 2026-10-16T12:20:00Z
+updated: 2026-10-16T13:26:21Z
 ---
 
 # Browser-Local Architecture
@@ -65,6 +67,18 @@ in depth, not protection from browser extensions, compromised dependencies,
 clipboard history, local downloads or browser-managed recovery. Cloudflare
 analytics/script injection must remain disabled. Vite HMR is development-only
 and is not covered by production network guarantees.
+
+## Interface Language
+
+User-facing Chinese copy describes file selection, conversion, download and
+import actions directly. Avoid marketing slogans, implementation terminology
+and repeated privacy claims. Label results as converted accounts rather than
+usable accounts. Expiry, missing refresh credentials and proxy warnings state
+the next action. The guide gives each destination's import steps, supported
+account types, file limits and settings that require attention after import.
+Keep local processing, refresh clearing, masked clipboard behavior and sensitive
+downloads explicit in their relevant contexts. These are wording conventions;
+provider mappings and credential handling are unchanged.
 
 ## Verification
 

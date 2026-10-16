@@ -15,6 +15,14 @@
     ],
     "symbols": {}
   },
+  "front/index.html": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
   "front/public/_headers": {
     "anchors": [],
     "definition_pages": [],
@@ -25,6 +33,14 @@
     "symbols": {}
   },
   "front/src/App.tsx": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
+  "front/src/components/ConversionGuide.tsx": {
     "anchors": [],
     "definition_pages": [],
     "pages": [

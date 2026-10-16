@@ -39,7 +39,7 @@ export function sub2apiBundle(accounts: Sub2apiAccount[], now: Date): Sub2apiDoc
 
 function cpaToSub(record: JsonObject, source: string, options: ConversionOptions): Omit<ConvertedEntry, 'id'> {
   const provider = providerOf(record.type, true);
-  if (record.use_siwc === true) throw new Error('此 Codex 账号启用了 SIWC；当前不支持，避免误用外层凭据。');
+  if (record.use_siwc === true) throw new Error('SIWC 账号暂不支持转换。');
   const token = provider === 'gemini' ? object(record.token) : record;
   const accessToken = required(token.access_token ?? token.accessToken, provider === 'gemini' ? 'token.access_token' : 'access_token');
   const claims = jwtPayload(accessToken);
@@ -50,11 +50,11 @@ function cpaToSub(record: JsonObject, source: string, options: ConversionOptions
   const expires = getExpiry(record, token, claims);
   const refresh = text(token.refresh_token, token.refreshToken);
   const warnings: string[] = [];
-  if (!refresh) warnings.push('缺少 refresh_token：到期后可能无法自动刷新。');
-  if (!expires) warnings.push('未提供有效到期时间，未猜测或生成有效期。');
-  if (expires && Date.parse(expires) <= options.now.getTime()) warnings.push('令牌已过期；转换不会刷新或验证凭据。');
-  if (record.disabled === true) warnings.push('CPA disabled 已保留在元数据中，但 sub2api 导入不会自动停用账号。');
-  if (record.proxy_url) warnings.push('CPA proxy_url 仅保留在元数据中，请在 sub2api 手动配置代理。');
+  if (!refresh) warnings.push('缺少 refresh_token，令牌到期后需重新授权。');
+  if (!expires) warnings.push('缺少有效的到期时间，请在目标服务中检查。');
+  if (expires && Date.parse(expires) <= options.now.getTime()) warnings.push('令牌已过期，导入后需刷新。');
+  if (record.disabled === true) warnings.push('此账号在 CPA 中已停用；如需继续停用，请在 sub2api 中设置。');
+  if (record.proxy_url) warnings.push('请在 sub2api 中重新配置此账号的代理。');
   const credentials = compact({
     access_token: accessToken,
     refresh_token: refresh,
@@ -83,7 +83,7 @@ function cpaToSub(record: JsonObject, source: string, options: ConversionOptions
       oauth_type: provider === 'gemini' && text(record.project_id) ? 'code_assist' : undefined,
       plan_type: text(record.plan_type),
     }));
-    if (!text(record.project_id)) warnings.push('未提供 project_id，请确认目标服务是否需要 Google Cloud 项目。');
+    if (!text(record.project_id)) warnings.push('缺少 Google Cloud 项目 ID（project_id），请在目标服务中检查。');
   }
   const metadata = Object.fromEntries(Object.entries(record).filter(([key]) => !mappedCPAKeys.has(key)));
   const extra = compact({ email, last_refresh: timestamp(record.last_refresh), cpa2sub2api: { version: 1, provider, metadata } });
@@ -106,10 +106,10 @@ function subToCPA(account: JsonObject, source: string, options: ConversionOption
     : {};
   const document: JsonObject = { ...metadata, type: provider, ...compact({ email, last_refresh: timestamp(extra.last_refresh) }) };
   const warnings: string[] = [];
-  if (!refresh) warnings.push('缺少 refresh_token：到期后可能无法自动刷新。');
-  if (!expires) warnings.push('未提供有效到期时间，未猜测或生成有效期。');
-  if (expires && Date.parse(expires) <= options.now.getTime()) warnings.push('令牌已过期；转换不会刷新或验证凭据。');
-  if (account.proxy_key) warnings.push('sub2api 代理绑定不转换为 CPA proxy_url，请手动配置。');
+  if (!refresh) warnings.push('缺少 refresh_token，令牌到期后需重新授权。');
+  if (!expires) warnings.push('缺少有效的到期时间，请在目标服务中检查。');
+  if (expires && Date.parse(expires) <= options.now.getTime()) warnings.push('令牌已过期，导入后需刷新。');
+  if (account.proxy_key) warnings.push('请在 CPA 中重新配置此账号的代理。');
   if (provider === 'gemini') {
     Object.assign(document, compact({ project_id: text(credentials.project_id), auto: typeof extra.auto === 'boolean' ? extra.auto : metadata.auto, checked: typeof extra.checked === 'boolean' ? extra.checked : metadata.checked }));
     document.token = compact({ access_token: access, refresh_token: refresh, expiry: expires, token_type: text(credentials.token_type), scope: text(credentials.scope) });
@@ -118,11 +118,11 @@ function subToCPA(account: JsonObject, source: string, options: ConversionOption
     if (provider === 'codex') {
       document.refresh_token = refresh ?? '';
       Object.assign(document, compact({ id_token: text(credentials.id_token), account_id: text(credentials.chatgpt_account_id), plan_type: text(credentials.plan_type) }));
-      if (!text(credentials.id_token)) warnings.push('缺少 id_token，CPA 部分身份信息可能不可用。');
+      if (!text(credentials.id_token)) warnings.push('缺少 id_token，CPA 可读取的身份信息有限。');
     } else if (provider === 'claude') Object.assign(document, compact({ id_token: text(credentials.id_token), account_uuid: text(credentials.account_uuid), organization_uuid: text(credentials.organization_uuid) }));
     else Object.assign(document, compact({ project_id: text(credentials.project_id), token_type: text(credentials.token_type), plan_type: text(credentials.plan_type) }));
   }
-  warnings.push('sub2api 的并发、优先级、分组、计费及账号管理设置不属于 CPA OAuth 文件，不会导出。');
+  warnings.push('sub2api 的并发、优先级、分组、计费和模型映射设置会留在原服务中。');
   const label = text(account.name, email) ?? 'account';
   return { source, label, provider, fileName: `${safeFileName(email ?? label)}.${provider}.json`, document, warnings };
 }

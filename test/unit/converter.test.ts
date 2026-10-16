@@ -48,7 +48,7 @@ describe('provider mappings and round trips', () => {
   it('accepts missing refresh token and retains blank Codex field in reverse', () => {
     const forward = convert({ ...cpaFixture('codex'), refresh_token: undefined });
     expect(forward.entries[0].account!.credentials.refresh_token).toBeUndefined();
-    expect(forward.entries[0].warnings).toContain('缺少 refresh_token：到期后可能无法自动刷新。');
+    expect(forward.entries[0].warnings).toContain('缺少 refresh_token，令牌到期后需重新授权。');
     expect(convert(mergedDocument(forward.entries, NOW), 'sub2api-to-cpa').entries[0].document.refresh_token).toBe('');
   });
 
@@ -78,8 +78,8 @@ describe('provider mappings and round trips', () => {
   it('preserves unknown CPA metadata and device identity without activating proxy or disabled settings', () => {
     const record = { ...cpaFixture('claude'), disabled: true, proxy_url: 'http://proxy.invalid', prefix: 'synthetic-prefix', custom: { safe: false } };
     const forward = convert(record).entries[0];
-    expect(forward.warnings.join(' ')).toContain('不会自动停用');
-    expect(forward.warnings.join(' ')).toContain('手动配置代理');
+    expect(forward.warnings.join(' ')).toContain('如需继续停用，请在 sub2api 中设置');
+    expect(forward.warnings.join(' ')).toContain('请在 sub2api 中重新配置此账号的代理');
     const reversed = convert(forward.document, 'sub2api-to-cpa').entries[0];
     expect(reversed.document).toMatchObject({ disabled: true, proxy_url: 'http://proxy.invalid', prefix: 'synthetic-prefix', custom: { safe: false }, claude_device_ids: ['synthetic-device'] });
   });
