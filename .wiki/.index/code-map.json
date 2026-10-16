@@ -44,7 +44,8 @@
     "anchors": [],
     "definition_pages": [],
     "pages": [
-      ".wiki/concepts/architecture.md"
+      ".wiki/concepts/architecture.md",
+      ".wiki/how-to/cloudflare-pages.md"
     ],
     "symbols": {}
   },
@@ -68,7 +69,8 @@
     "anchors": [],
     "definition_pages": [],
     "pages": [
-      ".wiki/concepts/architecture.md"
+      ".wiki/concepts/architecture.md",
+      ".wiki/how-to/cloudflare-pages.md"
     ],
     "symbols": {}
   },
@@ -76,7 +78,8 @@
     "anchors": [],
     "definition_pages": [],
     "pages": [
-      ".wiki/concepts/architecture.md"
+      ".wiki/concepts/architecture.md",
+      ".wiki/how-to/cloudflare-pages.md"
     ],
     "symbols": {}
   },

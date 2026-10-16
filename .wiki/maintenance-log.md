@@ -50,3 +50,10 @@ Append-only history for wiki updates caused by scope work, implementation closeo
 - Pages: .wiki/concepts/architecture.md
 - Verification: pnpm check; pnpm verify:dist; pnpm browser:smoke; wiki-note impact/rebuild/lint
 - Residual risk: Local implementation only; not published or deployed.
+
+## 2026-10-16T14:10:00Z [specimen-ui-release]
+
+- Summary: Recorded the deployed Specimen UI release and live Pages acceptance evidence.
+- Pages: .wiki/how-to/cloudflare-pages.md
+- Verification: Cloudflare project API; HTTPS asset/header comparison; live Chromium synthetic conversion
+- Residual risk: Live provider OAuth and external account behavior were intentionally not tested.

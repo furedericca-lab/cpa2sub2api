@@ -15,7 +15,9 @@ subdomain `cpa2sub2api-e3k.pages.dev`, no Functions, and successful deployment
 
 ## Outcome
 
-Pending repository verification, publication, deployment and production checks.
+Completed: commit `a6fcd920322073a092957f1c4c644a26ca4d9b52` was pushed to
+the remote `main` branch, deployed successfully to the existing production Pages project,
+and verified against the served assets, headers and live browser behavior.
 
 ## Goals / Non-goals
 
@@ -70,4 +72,30 @@ None. User explicitly requested commit, push and redeployment.
 
 - Initial Git and Cloudflare read-only checks confirmed the requested branch,
   existing account/project and previous production deployment.
-- Repository verification and release actions are pending.
+- `pnpm check`: typecheck, 73 unit tests, production build and both pinned vendor
+  content/commit checks passed. `pnpm verify:dist` and all 8 browser tests passed.
+- Commit `a6fcd920322073a092957f1c4c644a26ca4d9b52` pushed to the remote `main` branch;
+  remote SHA matched. The worktree was clean before deployment.
+- `pnpm pages:deploy` used the selected account token via a private child-process
+  environment after removing ambient Cloudflare credential variables. Wrangler
+  4.151.1 deployed exactly four static files successfully.
+- Cloudflare API confirmed production deployment
+  `587e6c44-ca4c-41dd-8058-27000d1ae467`, status `success`, `main`, exact commit
+  SHA, and `uses_functions: false`. Immutable URL:
+  `https://587e6c44.cpa2sub2api-e3k.pages.dev/`.
+- The live production document, hashed JS and CSS matched `dist/` byte for byte.
+  Actual headers included the local-only CSP with `connect-src 'none'`,
+  `script-src 'self'`, `style-src 'self'`, plus no-referrer and nosniff.
+- Live Chromium converted one synthetic Codex account and downloaded merged
+  JSON; it verified masked preview, 390px overflow, help dialog, zero page
+  errors and zero external requests. No live provider OAuth was attempted.
+- Updated `.wiki/how-to/cloudflare-pages.md` with deployment/source IDs and
+  verified production acceptance. No DNS or project settings changed.
+
+
+## Archive Record
+
+- Archived on 2026-10-16 under `.scopes/archive/specimen-ui-release/`.
+- Archive purpose: preserve the completed specimen-ui-release audit trail.
+- Future enhancements should use a new scope under `.scopes/<enhancement-scope>/`.
+- Archived docs should only change for factual errata or path-maintenance updates.

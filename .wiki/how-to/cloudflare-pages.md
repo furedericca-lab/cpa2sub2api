@@ -7,12 +7,15 @@ related_files:
   - wrangler.jsonc
   - front/public/_headers
   - front/vite.config.ts
+  - front/src/App.tsx
+  - front/src/styles.css
+  - front/src/tokens.css
   - scripts/verify-dist.mjs
   - scripts/pages-deploy.mjs
   - package.json
 tags: [deployment, cloudflare, security]
 last_checked: 2026-10-16
-updated: 2026-10-16T13:33:50Z
+updated: 2026-10-16T14:06:45Z
 ---
 
 # Deploy Static Assets To Cloudflare Pages
@@ -115,6 +118,26 @@ matched dist/ byte for byte, with the actual local-only security headers.
 Unmodified production Chromium verified the new copy, expired-account wording,
 forward JSON download, reverse conversion and mobile help, with zero external
 runtime requests and page errors. Conversion behavior and CSS are unchanged.
+
+## Specimen UI Release
+
+The Specimen-inspired warm-white/orange interface is live at the production
+URL. Deployment `587e6c44-ca4c-41dd-8058-27000d1ae467` completed at
+`2026-10-16T14:06:45.270542Z` from `main` commit
+`a6fcd920322073a092957f1c4c644a26ca4d9b52`. Its immutable URL is
+https://587e6c44.cpa2sub2api-e3k.pages.dev/.
+
+Cloudflare's project API reports production status `success`, the expected
+branch and exact source SHA, and `uses_functions: false`. The HTTPS production
+HTML, JavaScript and CSS matched `dist/` byte for byte. Response headers
+included `connect-src 'none'`, self-only scripts/styles, no-referrer and
+`nosniff`.
+
+The live Chromium smoke test used synthetic Codex account data: it verified the
+orange interface, one-account conversion and JSON download, masked preview,
+390px layout, help dialog, zero page errors and zero external requests. Full
+local verification passed 73 unit tests, 8 browser tests and both pinned vendor
+checks. No account/provider OAuth request was made.
 
 ## Post-Deployment Acceptance
 
