@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "cpa2sub2api",
-  "account_id": "d7bf5987a206b7ea342add617a9d9dcd",
   "pages_build_output_dir": "./dist",
   "compatibility_date": "2026-10-16"
 }

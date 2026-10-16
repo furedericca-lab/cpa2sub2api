@@ -16,7 +16,7 @@
     "browser:install": "node scripts/install-browser.mjs",
     "browser:smoke": "playwright test",
     "pages:dev": "wrangler pages dev dist --ip 127.0.0.1",
-    "pages:deploy": "pnpm build && pnpm verify:dist && wrangler pages deploy dist",
+    "pages:deploy": "pnpm build && pnpm verify:dist && node scripts/pages-deploy.mjs",
     "verify:vendor": "node scripts/vendor.mjs verify",
     "verify:dist": "node scripts/verify-dist.mjs"
   },

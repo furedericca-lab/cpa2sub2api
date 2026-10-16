@@ -8,6 +8,7 @@ related_files:
   - front/public/_headers
   - front/vite.config.ts
   - scripts/verify-dist.mjs
+  - scripts/pages-deploy.mjs
   - package.json
 tags: [deployment, cloudflare, security]
 last_checked: 2026-10-16
@@ -57,8 +58,10 @@ as a dry run or part of routine local verification. Project creation, custom
 domains and account settings are separate external actions.
 
 The owner selected the Cloudflare account associated with `momoe.org`.
-`wrangler.jsonc` pins account ID `d7bf5987a206b7ea342add617a9d9dcd`;
-the account ID is not a credential. Keep API tokens outside the repository and
+`scripts/pages-deploy.mjs` pins account ID `d7bf5987a206b7ea342add617a9d9dcd`
+through the deployment process environment; Pages rejects `account_id` in
+`wrangler.jsonc`, even though the generic Wrangler schema includes it.
+The account ID is not a credential. Keep API tokens outside the repository and
 use credentials scoped to this account rather than relying on an ambient token
 for another account. Read-only Cloudflare API checks confirmed account access
 and an empty Pages project list on 2026-10-16. This does not prove deployment
