@@ -65,6 +65,14 @@
     ],
     "symbols": {}
   },
+  "scripts/pages-deploy.mjs": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/cloudflare-pages.md"
+    ],
+    "symbols": {}
+  },
   "scripts/vendor.mjs": {
     "anchors": [],
     "definition_pages": [],

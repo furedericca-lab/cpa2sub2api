@@ -3,8 +3,9 @@ title: Project Wiki Index
 type: wiki-index
 status: current
 generated_by: /root/.codex/skills/wiki-note/scripts/wiki_note.py
-updated: 2026-10-16T12:49:11Z
+updated: 2026-10-16T12:58:34Z
 ---
+
 
 
 
@@ -15,7 +16,7 @@ updated: 2026-10-16T12:49:11Z
 # Project Wiki Index
 
 <!-- BEGIN AUTO -->
-- Last rebuilt: 2026-10-16T12:49:11Z
+- Last rebuilt: 2026-10-16T12:58:34Z
 - Page count: 4
 
 ## By Type
@@ -26,7 +27,7 @@ updated: 2026-10-16T12:49:11Z
 
 ### how-to
 
-- [Deploy Static Assets To Cloudflare Pages](how-to/cloudflare-pages.md) | status: current | updated: 2026-10-16T12:49:04Z
+- [Deploy Static Assets To Cloudflare Pages](how-to/cloudflare-pages.md) | status: current | updated: 2026-10-16T12:57:00Z
 - [Maintain Pinned Vendor Submodules](how-to/vendor-snapshots.md) | status: current | updated: 2026-10-16T12:20:00Z
 
 ### reference
@@ -44,7 +45,7 @@ updated: 2026-10-16T12:49:11Z
 
 ## Recently Updated
 
-- 2026-10-16T12:49:04Z | [Deploy Static Assets To Cloudflare Pages](how-to/cloudflare-pages.md)
+- 2026-10-16T12:57:00Z | [Deploy Static Assets To Cloudflare Pages](how-to/cloudflare-pages.md)
 - 2026-10-16T12:20:00Z | [Browser-Local Architecture](concepts/architecture.md)
 - 2026-10-16T12:20:00Z | [Maintain Pinned Vendor Submodules](how-to/vendor-snapshots.md)
 - 2026-10-16T12:20:00Z | [Conversion Contract And Compatibility](reference/conversion-contract.md)

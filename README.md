@@ -10,6 +10,8 @@ and localStorage for numeric preferences only. No backend, account login,
 credential upload, telemetry, remote fonts, or cloud storage. The interface
 uses Chinese operator copy. Technical documentation is in English.
 
+Live site: **https://cpa2sub2api-e3k.pages.dev/**
+
 ## Quick Start
 
 Requires Node.js >=22.19 and pnpm 12.10.1. The repository pins the package
@@ -70,7 +72,9 @@ by sub2api. See [mapping and limitations](.wiki/reference/conversion-contract.md
 The only deployable directory is **`dist/`**, never the repository root or
 `vendor/`. Do not add Pages Functions or switch this project to a Worker.
 
-For Pages Git integration:
+The live project uses Direct Upload on production branch `main`, not Git
+integration. Git pushes alone do not redeploy it. For a separate Git-integrated
+Pages project:
 
 | Setting | Value |
 | --- | --- |
@@ -81,9 +85,11 @@ For Pages Git integration:
 | `NODE_VERSION` | `22.19.0` or a compatible newer version |
 | `PNPM_VERSION` | `12.10.1` |
 
-The provided `wrangler.jsonc` describes a static Pages project named
-`cpa2sub2api`. It has no bindings, secrets or Functions. Edit the name to match
-your own Pages project before an authorized deployment.
+The provided `wrangler.jsonc` describes the static Pages project `cpa2sub2api`.
+It has no bindings, secrets or Functions. `scripts/pages-deploy.mjs` pins the
+owner-selected account through the deployment process environment, because
+Pages does not support `account_id` in its configuration file. To deploy to a
+different target, update the helper and project configuration together.
 
 ```bash
 pnpm build
@@ -97,6 +103,11 @@ builds and uploads `dist/`. The source repository is published at
 authenticate to Cloudflare or deploy anything automatically. See the
 [deployment guide](.wiki/how-to/cloudflare-pages.md) for security headers and
 post-deployment checks.
+
+Provide the selected account's API token privately to the deployment process;
+the helper selects the account but does not store credentials. The initial
+production deployment passed live HTTPS/asset integrity, security-header,
+bidirectional conversion, JSON/ZIP download and browser-local privacy checks.
 
 ## Project Structure
 

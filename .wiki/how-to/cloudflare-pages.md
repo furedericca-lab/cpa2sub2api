@@ -12,7 +12,7 @@ related_files:
   - package.json
 tags: [deployment, cloudflare, security]
 last_checked: 2026-10-16
-updated: 2026-10-16T12:49:04Z
+updated: 2026-10-16T12:57:00Z
 ---
 
 # Deploy Static Assets To Cloudflare Pages
@@ -33,6 +33,11 @@ Vite serves `_headers` as a file rather than interpreting it.
 
 ## Git Integration
 
+The deployed project uses Direct Upload with no Git integration; pushes to
+GitHub do not trigger a deployment. This section applies to a separate
+Git-integrated project. A Direct Upload project cannot be switched to Git
+integration in place.
+
 After explicitly authorizing creation/publication of the Git remote, connect it
 through Cloudflare Workers & Pages → Create application → Pages → Import an
 existing Git repository. Use repository root, production branch `main`, build
@@ -51,9 +56,10 @@ OAuth tokens or input files in build environment variables or repository files.
 ## Direct Upload
 
 Only after the owner authorizes a target Cloudflare account/project, check the
-local Wrangler version/help, authenticate locally without printing credentials,
-and change `name` in `wrangler.jsonc` to the intended project. Then the owner
-can run `pnpm pages:deploy`. This invokes a real remote upload; do not treat it
+local Wrangler version/help and provide its API token privately to the process.
+`pnpm pages:deploy` builds and verifies dist/ before invoking the portable
+deployment helper. The helper pins the selected account, project cpa2sub2api
+and production branch main. This invokes a real remote upload; do not treat it
 as a dry run or part of routine local verification. Project creation, custom
 domains and account settings are separate external actions.
 
@@ -63,14 +69,38 @@ through the deployment process environment; Pages rejects `account_id` in
 `wrangler.jsonc`, even though the generic Wrangler schema includes it.
 The account ID is not a credential. Keep API tokens outside the repository and
 use credentials scoped to this account rather than relying on an ambient token
-for another account. Read-only Cloudflare API checks confirmed account access
-and an empty Pages project list on 2026-10-16. This does not prove deployment
-write permissions.
+for another account. Read-only API checks confirmed account access before
+creation; project creation and the successful upload then proved the write path.
 
-No deployment has occurred. The user-provided Git remote is
-`https://github.com/furedericca-lab/cpa2sub2api`. Account selection alone does
-not authorize project creation, upload, or domain changes; no Pages URL is
-assumed.
+## Verified Production Deployment
+
+The owner explicitly authorized project creation and deployment on 2026-10-16.
+
+| Property | Verified value |
+| --- | --- |
+| Project | cpa2sub2api |
+| Production URL | https://cpa2sub2api-e3k.pages.dev/ |
+| Deployment URL | https://a6d1a8e3.cpa2sub2api-e3k.pages.dev/ |
+| Deployment ID | a6d1a8e3-bc1b-412d-a319-20fbd021b37e |
+| Deployment source commit | f00a365c0b48380fb9a8e75f0cf270c79585e7a0 |
+| Production branch | main |
+| Completed | 2026-10-16T12:55:04Z |
+| API deployment status | success |
+| Git integration / Functions / Web Analytics tag | none / false / none |
+
+HTTPS document, JS and CSS responses matched dist/ byte for byte. Actual
+response headers supplied the local-only CSP and other configured security
+headers. An unmodified production page passed Chromium checks for four-provider
+forward and reverse conversion, masked previews, unsupported-account isolation,
+individual/merged JSON and reverse ZIP downloads, no credential persistence,
+reload clearing and a 390px layout. No external runtime requests or page errors
+occurred. A hostile external fetch was blocked by the actual connect-src CSP.
+Desktop/mobile screenshots are ignored local artifacts in test-results/.
+
+The Git remote remains https://github.com/furedericca-lab/cpa2sub2api. No custom
+domain, momoe.org DNS, Git integration, analytics, backend or unrelated account
+setting was configured. Only synthetic account data was used for acceptance;
+live provider OAuth acceptance was not tested.
 
 ## Post-Deployment Acceptance
 
@@ -97,6 +127,9 @@ routes because it has only a root workspace.
 - https://developers.cloudflare.com/pages/configuration/build-image/
 - https://developers.cloudflare.com/pages/configuration/headers/
 - https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+- https://developers.cloudflare.com/pages/get-started/direct-upload/
+- https://developers.cloudflare.com/api/resources/pages/subresources/projects/methods/create/
 
-Current documentation was retrieved during implementation. Runtime verification
-of a live deployment is still a separate operation.
+Current documentation was retrieved during implementation/deployment. Repeat
+the post-deployment acceptance checks after future uploads; the evidence above
+describes the initial production deployment rather than all future versions.
