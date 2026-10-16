@@ -11,7 +11,7 @@ related_files:
   - package.json
 tags: [deployment, cloudflare, security]
 last_checked: 2026-10-16
-updated: 2026-10-16T12:20:00Z
+updated: 2026-10-16T12:49:04Z
 ---
 
 # Deploy Static Assets To Cloudflare Pages
@@ -56,9 +56,18 @@ can run `pnpm pages:deploy`. This invokes a real remote upload; do not treat it
 as a dry run or part of routine local verification. Project creation, custom
 domains and account settings are separate external actions.
 
-No deployment occurred during initial implementation. The user-provided Git
-remote is `https://github.com/furedericca-lab/cpa2sub2api`. No Pages URL or
-Cloudflare account is assumed.
+The owner selected the Cloudflare account associated with `momoe.org`.
+`wrangler.jsonc` pins account ID `d7bf5987a206b7ea342add617a9d9dcd`;
+the account ID is not a credential. Keep API tokens outside the repository and
+use credentials scoped to this account rather than relying on an ambient token
+for another account. Read-only Cloudflare API checks confirmed account access
+and an empty Pages project list on 2026-10-16. This does not prove deployment
+write permissions.
+
+No deployment has occurred. The user-provided Git remote is
+`https://github.com/furedericca-lab/cpa2sub2api`. Account selection alone does
+not authorize project creation, upload, or domain changes; no Pages URL is
+assumed.
 
 ## Post-Deployment Acceptance
 
