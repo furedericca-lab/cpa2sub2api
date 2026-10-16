@@ -1,0 +1,134 @@
+[
+  {
+    "anchor_count": 0,
+    "code_anchors": [],
+    "excerpt": "# Browser-Local Architecture ## Runtime Ownership The deployed product is a single static page. Vite builds `front/` into root `dist/`. The browser runs React and the pure conversion modules; no service, remote account API, Pages Function, Worker, database or server-side session participates. `vendor/` contains pinned Git submodules for source evidence and is neither built nor served. Recursive checkout retrieves the original source from its owners instead of copying upstream OAuth constants...",
+    "path": ".wiki/concepts/architecture.md",
+    "related_files": [
+      {
+        "path": "src/conversion/",
+        "role": "related"
+      },
+      {
+        "path": "front/src/App.tsx",
+        "role": "related"
+      },
+      {
+        "path": "front/src/lib/settings.ts",
+        "role": "related"
+      },
+      {
+        "path": "front/public/_headers",
+        "role": "related"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "role": "related"
+      }
+    ],
+    "scope": "browser-converter",
+    "search_text": "Browser-Local Architecture\nconcept\ncurrent\nbrowser-converter\n{\"title\": \"Browser-Local Architecture\", \"type\": \"concept\", \"status\": \"current\", \"scope\": \"browser-converter\", \"related_files\": [\"src/conversion/\", \"front/src/App.tsx\", \"front/src/lib/settings.ts\", \"front/public/_headers\", \"pnpm-workspace.yaml\"], \"tags\": [\"architecture\", \"privacy\"], \"last_checked\": \"2026-10-16\", \"updated\": \"2026-10-16T12:20:00Z\"}\nsrc/conversion/ related front/src/App.tsx related front/src/lib/settings.ts related front/public/_headers related pnpm-workspace.yaml related\n\n\n# Browser-Local Architecture\n\n## Runtime Ownership\n\nThe deployed product is a single static page. Vite builds `front/` into root\n`dist/`. The browser runs React and the pure conversion modules; no service,\nremote account API, Pages Function, Worker, database or server-side session\nparticipates. `vendor/` contains pinned Git submodules for source evidence and is\nneither built nor served. Recursive checkout retrieves the original source from\nits owners instead of copying upstream OAuth constants into the parent history.\n\n`src/conversion/` owns parsing, provider mapping, safe names, validation, bundle\ngeneration and ZIP generation. `front/src/App.tsx` owns import state, selection,\npreview visibility, filtering, downloads and operator notices. No router or\nglobal state library is needed for this one workspace.\n\n## Data Flow\n\nFile input, directory selection, drag/drop and paste become `InputSource[]` in\nReact memory. Conversion validates bounded JSON then processes accounts in input\norder. Each attempted account becomes an entry or an explicit issue. Valid\naccounts can be selected individually. Failed accounts never become exports.\nDownloads use user-triggered Blob URLs; temporary URLs are revoked afterward.\n\nSelecting files appends to the current file batch. Pasted documents are added at\nconversion time. Direction, source text and setting changes invalidate previous\nresults. Clear also invalidates pending asynchronous file reads with a generation\ncounter. Direction switching preserves input but discards previous results.\n\n## Persistence And Privacy\n\nOnly the versioned preference key `cpa2sub2api:preferences:v1` is persisted. Its\nallowlist contains exactly `concurrency` and `priority`; invalid or unavailable\nstorage falls back to defaults and does not block conversion. The application\ndoes not persist source/result JSON or use IndexedDB, service workers or URLs\nfor account data. Reloading clears application input/result state.\n\nPreview token fields are recursively masked by default. Displaying real tokens\nrequires an explicit checkbox; copying respects that state. Downloads always\ncontain real credentials, independently of masking. Masking is not a guarantee\nthat arbitrary metadata or email addresses are anonymized. Input is untrusted;\nReact text escaping and generic parser errors prevent HTML execution and raw\nJSON snippets in error messages. JWT payload decoding is best-effort metadata\nextraction, never signature verification or authentication.\n\nStatic production responses apply `_headers`, including a CSP with no network\nconnections, remote scripts, inline scripts, embedding or forms. This is defense\nin depth, not protection from browser extensions, compromised dependencies,\nclipboard history, local downloads or browser-managed recovery. Cloudflare\nanalytics/script injection must remain disabled. Vite HMR is development-only\nand is not covered by production network guarantees.\n\n## Verification\n\nUnit tests isolate conversion and preference storage. Browser tests use compiled\nproduction assets with the production CSP attached to document responses. They\ncheck actual JSON/ZIP downloads, reload clearing, masked/revealed previews and\nruntime request origins. A separate local Pages emulator verifies actual static\nheaders. Neither test implies live deployment or live account validity.\n",
+    "status": "current",
+    "title": "Browser-Local Architecture",
+    "type": "concept"
+  },
+  {
+    "anchor_count": 0,
+    "code_anchors": [],
+    "excerpt": "# Deploy Static Assets To Cloudflare Pages ## Local Build And Emulation ```bash pnpm install --frozen-lockfile pnpm check pnpm verify:dist pnpm pages:dev ``` The project-local pinned Wrangler reads `wrangler.jsonc`, serves `dist/` and applies Pages `_headers` locally. It binds loopback; it does not deploy or require an account mutation. Do not use Vite preview to prove Pages header processing: Vite serves `_headers` as a file rather than interpreting it. ## Git Integration After explicitly au...",
+    "path": ".wiki/how-to/cloudflare-pages.md",
+    "related_files": [
+      {
+        "path": "wrangler.jsonc",
+        "role": "related"
+      },
+      {
+        "path": "front/public/_headers",
+        "role": "related"
+      },
+      {
+        "path": "front/vite.config.ts",
+        "role": "related"
+      },
+      {
+        "path": "scripts/verify-dist.mjs",
+        "role": "related"
+      },
+      {
+        "path": "package.json",
+        "role": "related"
+      }
+    ],
+    "scope": "browser-converter",
+    "search_text": "Deploy Static Assets To Cloudflare Pages\nhow-to\ncurrent\nbrowser-converter\n{\"title\": \"Deploy Static Assets To Cloudflare Pages\", \"type\": \"how-to\", \"status\": \"current\", \"scope\": \"browser-converter\", \"related_files\": [\"wrangler.jsonc\", \"front/public/_headers\", \"front/vite.config.ts\", \"scripts/verify-dist.mjs\", \"package.json\"], \"tags\": [\"deployment\", \"cloudflare\", \"security\"], \"last_checked\": \"2026-10-16\", \"updated\": \"2026-10-16T12:20:00Z\"}\nwrangler.jsonc related front/public/_headers related front/vite.config.ts related scripts/verify-dist.mjs related package.json related\n\n\n# Deploy Static Assets To Cloudflare Pages\n\n## Local Build And Emulation\n\n```bash\npnpm install --frozen-lockfile\npnpm check\npnpm verify:dist\npnpm pages:dev\n```\n\nThe project-local pinned Wrangler reads `wrangler.jsonc`, serves `dist/` and\napplies Pages `_headers` locally. It binds loopback; it does not deploy or require\nan account mutation. Do not use Vite preview to prove Pages header processing:\nVite serves `_headers` as a file rather than interpreting it.\n\n## Git Integration\n\nAfter explicitly authorizing creation/publication of the Git remote, connect it\nthrough Cloudflare Workers & Pages → Create application → Pages → Import an\nexisting Git repository. Use repository root, production branch `main`, build\ncommand `pnpm build` and output `dist`. Set `NODE_VERSION=22.19.0` or a newer\ncompatible version and `PNPM_VERSION=12.10.1`; use the current Pages build image.\nThe vendor package managers and vendor Go modules must not be executed.\nThe Vite build needs no initialized vendor submodules. Source-backed tests and\n`pnpm check` require `git submodule update --init --recursive` in environments\nthat do not clone submodules automatically.\n\nFor reproducible explicit dependency installation, Pages also supports\n`SKIP_DEPENDENCY_INSTALL=1` with the build command\n`pnpm install --frozen-lockfile && pnpm build`. Do not put account credentials,\nOAuth tokens or input files in build environment variables or repository files.\n\n## Direct Upload\n\nOnly after the owner authorizes a target Cloudflare account/project, check the\nlocal Wrangler version/help, authenticate locally without printing credentials,\nand change `name` in `wrangler.jsonc` to the intended project. Then the owner\ncan run `pnpm pages:deploy`. This invokes a real remote upload; do not treat it\nas a dry run or part of routine local verification. Project creation, custom\ndomains and account settings are separate external actions.\n\nNo deployment occurred during initial implementation. The user-provided Git\nremote is `https://github.com/furedericca-lab/cpa2sub2api`. No Pages URL or\nCloudflare account is assumed.\n\n## Post-Deployment Acceptance\n\n1. Confirm the document and versioned JS/CSS assets load over HTTPS.\n2. Check response CSP includes `connect-src 'none'`, `frame-ancestors 'none'`,\n   `object-src 'none'`, and self-only script/style sources; verify no inline or\n   external runtime scripts are injected.\n3. Keep Cloudflare Web Analytics and automatic third-party script injection off.\n   Strict CSP may block such scripts, but do not rely on blocking alone.\n4. In browser developer tools, convert synthetic data and prove that no account\n   API, remote font, analytics request or upload occurs. Verify JSON and ZIP\n   downloads and that reloading clears input/results.\n5. Ensure only built assets are published: no vendor sources, raw input, tests,\n   private files, source maps, Functions or `_worker.js`.\n\nCloudflare Pages parses `_headers` for static responses; those rules do not\nprotect future Pages Functions. Adding a backend changes the privacy contract\nand requires a separate design. This site needs no SPA redirects for nested\nroutes because it has only a root workspace.\n\n## Official References Checked\n\n- https://developers.cloudflare.com/pages/framework-guides/deploy-a-react-site/\n- https://developers.cloudflare.com/pages/configuration/build-image/\n- https://developers.cloudflare.com/pages/configuration/headers/\n- https://developers.cloudflare.com/pages/functions/wrangler-configuration/\n\nCurrent documentation was retrieved during implementation. Runtime verification\nof a live deployment is still a separate operation.\n",
+    "status": "current",
+    "title": "Deploy Static Assets To Cloudflare Pages",
+    "type": "how-to"
+  },
+  {
+    "anchor_count": 0,
+    "code_anchors": [],
+    "excerpt": "# Maintain Pinned Vendor Submodules ## Ownership `vendor/sub2api` and `vendor/CLIProxyAPI` are complete pinned Git submodules of the public upstreams. They have no root workspace membership or runtime startup. Root `pnpm install/build` processes only the converter. Keep both projects' original dotfiles and license texts intact. The parent Git tree stores only gitlinks, not copies of upstream OAuth client constants. Initial inline-vendor publication was blocked by GitHub push protection; the r...",
+    "path": ".wiki/how-to/vendor-snapshots.md",
+    "related_files": [
+      {
+        "path": "vendor/vendor-lock.json",
+        "role": "related"
+      },
+      {
+        "path": ".gitmodules",
+        "role": "related"
+      },
+      {
+        "path": "scripts/vendor.mjs",
+        "role": "related"
+      },
+      {
+        "path": "THIRD_PARTY.md",
+        "role": "related"
+      },
+      {
+        "path": "pnpm-workspace.yaml",
+        "role": "related"
+      }
+    ],
+    "scope": "browser-converter",
+    "search_text": "Maintain Pinned Vendor Submodules\nhow-to\ncurrent\nbrowser-converter\n{\"title\": \"Maintain Pinned Vendor Submodules\", \"type\": \"how-to\", \"status\": \"current\", \"scope\": \"browser-converter\", \"related_files\": [\"vendor/vendor-lock.json\", \".gitmodules\", \"scripts/vendor.mjs\", \"THIRD_PARTY.md\", \"pnpm-workspace.yaml\"], \"tags\": [\"vendor\", \"provenance\"], \"last_checked\": \"2026-10-16\", \"updated\": \"2026-10-16T12:20:00Z\"}\nvendor/vendor-lock.json related .gitmodules related scripts/vendor.mjs related THIRD_PARTY.md related pnpm-workspace.yaml related\n\n\n# Maintain Pinned Vendor Submodules\n\n## Ownership\n\n`vendor/sub2api` and `vendor/CLIProxyAPI` are complete pinned Git submodules of\nthe public upstreams. They have no root workspace membership or runtime startup.\nRoot `pnpm install/build` processes only the converter. Keep both projects'\noriginal dotfiles and license texts intact. The parent Git tree stores only\ngitlinks, not copies of upstream OAuth client constants. Initial inline-vendor\npublication was blocked by GitHub push protection; the repair deliberately used\nsubmodules rather than bypassing protection or editing upstream source.\n\n`vendor/vendor-lock.json` records each URL, full commit, file count and SHA-256\naggregate. The aggregate hashes sorted relative paths plus each file's content\nhash, excluding `.git` metadata. Verification checks both the initialized\nsubmodule HEAD and content digest. It does not establish upstream authenticity,\nGit executable-bit parity or third-party security. Recorded commits pin the\ninspected format evidence even if upstream later changes.\n\n## Verification\n\n```bash\ngit submodule update --init --recursive\npnpm verify:vendor\ngit submodule status\n```\n\nFresh clones should use `git clone --recurse-submodules`. Source-backed unit tests\nand `pnpm check` require initialized vendors, but `pnpm build` does not. Parent\n`git ls-tree HEAD vendor/sub2api vendor/CLIProxyAPI` must show mode `160000`.\nNever force-add source files from inside a vendor into the parent repository.\n\n## Authorized Refresh\n\n1. Confirm the worktree and explicit vendor-refresh scope. Preserve unrelated\n   edits; do not overwrite modified vendor trees.\n2. Fetch the authorized public upstream in its submodule and record the exact\n   intended commit. Review changes to credential types and data import/export.\n3. With the submodule worktree clean, check out that exact commit detached. Do\n   not follow floating branch HEAD or overwrite unrelated local vendor edits.\n4. Adapt application mappings and synthetic tests for any accepted format changes.\n5. From the root, run `node scripts/vendor.mjs record vendor` for the selected\n   submodule HEADs. Review `.gitmodules`, parent gitlinks and the manifest together;\n   recording a digest alone does not authorize a pin change.\n6. Run `pnpm check`, `pnpm verify:dist`, and affected browser acceptance. Update\n   mapping notes, provenance and maintenance evidence. Stage the submodule\n   gitlinks and manifest, inspect the diff and publish only when requested.\n\nDo not fix application behavior by editing vendor source. A vendor update is\nseparate from a routine converter UI/core change and never requires running\nthe vendor services or introducing their secrets into this repository.\n",
+    "status": "current",
+    "title": "Maintain Pinned Vendor Submodules",
+    "type": "how-to"
+  },
+  {
+    "anchor_count": 0,
+    "code_anchors": [],
+    "excerpt": "# Conversion Contract And Compatibility ## Canonical Format Evidence Pinned source versions are in `vendor/vendor-lock.json`. - `vendor/sub2api/backend/internal/handler/admin/account_data.go`: `DataPayload`, `DataAccount`, `validateDataHeader`, `validateDataAccount`. - `vendor/CLIProxyAPI/internal/auth/codex/token.go`: `CodexTokenStorage`. - `vendor/CLIProxyAPI/internal/auth/claude/token.go`: `ClaudeTokenStorage`. - `vendor/CLIProxyAPI/sdk/auth/antigravity.go`: `BuildAntigravityAuth`. - The r...",
+    "path": ".wiki/reference/conversion-contract.md",
+    "related_files": [
+      {
+        "path": "src/conversion/converter.ts",
+        "role": "related"
+      },
+      {
+        "path": "src/conversion/json.ts",
+        "role": "related"
+      },
+      {
+        "path": "src/conversion/types.ts",
+        "role": "related"
+      },
+      {
+        "path": "test/unit/converter.test.ts",
+        "role": "related"
+      },
+      {
+        "path": "vendor/vendor-lock.json",
+        "role": "related"
+      }
+    ],
+    "scope": "browser-converter",
+    "search_text": "Conversion Contract And Compatibility\nreference\ncurrent\nbrowser-converter\n{\"title\": \"Conversion Contract And Compatibility\", \"type\": \"reference\", \"status\": \"current\", \"scope\": \"browser-converter\", \"related_files\": [\"src/conversion/converter.ts\", \"src/conversion/json.ts\", \"src/conversion/types.ts\", \"test/unit/converter.test.ts\", \"vendor/vendor-lock.json\"], \"tags\": [\"formats\", \"compatibility\", \"oauth\"], \"last_checked\": \"2026-10-16\", \"updated\": \"2026-10-16T12:20:00Z\"}\nsrc/conversion/converter.ts related src/conversion/json.ts related src/conversion/types.ts related test/unit/converter.test.ts related vendor/vendor-lock.json related\n\n\n# Conversion Contract And Compatibility\n\n## Canonical Format Evidence\n\nPinned source versions are in `vendor/vendor-lock.json`.\n\n- `vendor/sub2api/backend/internal/handler/admin/account_data.go`:\n  `DataPayload`, `DataAccount`, `validateDataHeader`, `validateDataAccount`.\n- `vendor/CLIProxyAPI/internal/auth/codex/token.go`: `CodexTokenStorage`.\n- `vendor/CLIProxyAPI/internal/auth/claude/token.go`: `ClaudeTokenStorage`.\n- `vendor/CLIProxyAPI/sdk/auth/antigravity.go`: `BuildAntigravityAuth`.\n- The reference project's `docs/src/converter.mjs` supplies the Gemini nested\n  token mapping and four-provider workflow; reference commit is in THIRD_PARTY.\n\nThis is source/schema compatibility, not live acceptance by an authenticated\nrunning service. The tool does not log in, probe endpoints, validate signatures,\nrefresh credentials, or prove that a provider will accept a converted account.\n\n## Mapping Matrix\n\n| CPA type | sub2api platform | Primary mapped fields |\n| --- | --- | --- |\n| `codex` | `openai` | access/refresh/id tokens, account/user/organization IDs, email, plan, expiry |\n| `claude` | `anthropic` | access/refresh/id tokens, email_address, account/organization UUIDs, expiry |\n| `gemini` | `gemini` | nested token access/refresh, expiry, scopes, token type, project ID, email |\n| `antigravity` | `antigravity` | access/refresh, project ID, token type, plan, email, expiry |\n\nForward output has `type: sub2api-data`, `version: 1`, UTC `exported_at`,\n`proxies: []` and `accounts`. Each account uses `type: oauth`, concurrency `10`\nand priority `1` unless edited. OpenAI expiry is ISO text; the other providers\nuse Unix-second strings in credentials, matching the reference convention and\nsub2api's flexible credential-time parser.\n\nReverse input accepts an accounts envelope, account array or a single account.\nVersion 1, legacy `sub2api-bundle` and unversioned envelopes are accepted.\nUnknown explicit document types/versions are rejected. An account must explicitly\nbe `type: oauth`; absent type is not guessed. Missing CPA provider type is also\nrejected instead of guessing Codex.\n\nReverse output produces one native CPA JSON per valid account. OpenAI maps to\n`type: codex`, Anthropic to `type: claude`. Gemini recreates the nested `token`\nobject. Codex emits an empty `refresh_token` string if missing, preserving the\nreference behavior. Other unavailable fields are omitted, not invented.\n\n## Expiry And Validation\n\nExpiry accepts ISO text, Unix seconds, Unix milliseconds and numeric strings.\nExplicit timestamps take precedence over decoded token claims. Antigravity can\nderive an absolute expiry from its recorded timestamp plus `expires_in`.\nAn unanchored relative lifetime is not added to the current clock: doing that\ncould falsely extend old credentials. Invalid timestamps are omitted with a\nwarning; expired tokens remain exportable with a warning. Opaque access tokens\nare allowed. Missing access tokens and recognizable masked access tokens fail.\nMissing refresh tokens and Google project IDs produce warnings where applicable.\n\nJSON input is bounded to 500 files, 20 MiB total, 5000 accounts and 64 nested\nlevels. It supports BOM, arrays, JSONL and adjacent documents. A malformed source\nfile is rejected without exposing parser excerpts; other source files continue.\nAccount errors are isolated within otherwise valid documents. Oversized account\ndocuments fail without silently accepting their first 5000 records.\n\n## Deliberate Non-Parity\n\nAPI-key, setup-token, upstream, unsupported-provider and active SIWC credentials\nare not converted. Groups, status, billing, scheduling, proxy bindings and\nservice configuration are not portable OAuth credential fields. Reverse entries\nalways warn about sub2api operational settings. CPA disabled/proxy_url metadata\ngets an explicit forward warning and never becomes active sub2api configuration.\n\nUnknown CPA top-level fields are retained under\n`extra.cpa2sub2api = { version: 1, provider, metadata }`. This preserves such\nfields as prefix, custom flags and Claude device IDs if sub2api retains the\nmetadata. Mapped credential keys are never restored from this archive; current\ncredentials remain authoritative. Unknown nested Gemini token fields, arbitrary\nsub2api credentials/extra, exact original timestamps and filename spelling are\nnot guaranteed to round trip. Do not describe the tool as a complete backup.\n\nDuplicate accounts are not deduplicated. Safe Unicode filenames are flattened\nand bounded; case-insensitive collisions receive numeric suffixes. ZIP contents\nare per-account JSON with those same names. A masked preview is never the source\nof downloadable credentials.\n",
+    "status": "current",
+    "title": "Conversion Contract And Compatibility",
+    "type": "reference"
+  }
+]

@@ -1,0 +1,141 @@
+{
+  ".gitmodules": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/vendor-snapshots.md"
+    ],
+    "symbols": {}
+  },
+  "THIRD_PARTY.md": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/vendor-snapshots.md"
+    ],
+    "symbols": {}
+  },
+  "front/public/_headers": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md",
+      ".wiki/how-to/cloudflare-pages.md"
+    ],
+    "symbols": {}
+  },
+  "front/src/App.tsx": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
+  "front/src/lib/settings.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
+  "front/vite.config.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/cloudflare-pages.md"
+    ],
+    "symbols": {}
+  },
+  "package.json": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/cloudflare-pages.md"
+    ],
+    "symbols": {}
+  },
+  "pnpm-workspace.yaml": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md",
+      ".wiki/how-to/vendor-snapshots.md"
+    ],
+    "symbols": {}
+  },
+  "scripts/vendor.mjs": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/vendor-snapshots.md"
+    ],
+    "symbols": {}
+  },
+  "scripts/verify-dist.mjs": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/cloudflare-pages.md"
+    ],
+    "symbols": {}
+  },
+  "src/conversion/": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
+  "src/conversion/converter.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/reference/conversion-contract.md"
+    ],
+    "symbols": {}
+  },
+  "src/conversion/json.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/reference/conversion-contract.md"
+    ],
+    "symbols": {}
+  },
+  "src/conversion/types.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/reference/conversion-contract.md"
+    ],
+    "symbols": {}
+  },
+  "test/unit/converter.test.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/reference/conversion-contract.md"
+    ],
+    "symbols": {}
+  },
+  "vendor/vendor-lock.json": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/vendor-snapshots.md",
+      ".wiki/reference/conversion-contract.md"
+    ],
+    "symbols": {}
+  },
+  "wrangler.jsonc": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/how-to/cloudflare-pages.md"
+    ],
+    "symbols": {}
+  }
+}

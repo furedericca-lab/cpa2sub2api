@@ -1,0 +1,22 @@
+{
+  "format": 1,
+  "storage": "git-submodule",
+  "vendors": [
+    {
+      "name": "sub2api",
+      "url": "https://github.com/Wei-Shaw/sub2api",
+      "commit": "b0a02a3304a0a78cdd003ddda1dd23ba02c03084",
+      "license": "LGPL-3.0",
+      "sha256": "35679eedaf019ad0baf12179de430ca1895b797070e71fd26e6f923bd3c29759",
+      "files": 4338
+    },
+    {
+      "name": "CLIProxyAPI",
+      "url": "https://github.com/router-for-me/CLIProxyAPI",
+      "commit": "e7003d2a3e2cee2d45f9950c067bf8e02a2ac0f8",
+      "license": "MIT",
+      "sha256": "d9220a2b3dd62e35dc93b881ac2464cfb683e5320a5c1308ba826b0a2847a7bf",
+      "files": 1977
+    }
+  ]
+}
