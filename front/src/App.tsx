@@ -142,10 +142,10 @@ export function App() {
     </header>
 
     <main>
-      <section className="page-intro"><div><div className="eyebrow">OAuth 账号</div><h1>账号文件互转</h1><p>在 CLIProxyAPI 与 sub2api 之间转换账号文件。</p></div><div className="privacy-stamp"><ShieldCheck size={24} /><span>本地处理<small>文件内容仅在浏览器内处理</small></span></div></section>
+      <section className="page-intro"><div><div className="eyebrow">OAuth 账号</div><h1>账号文件<span>互转</span></h1><p>在 CLIProxyAPI 与 sub2api 之间转换账号文件。</p></div><div className="privacy-stamp"><ShieldCheck size={24} /><span>本地处理<small>文件内容仅在浏览器内处理</small></span></div></section>
 
       <section className="workspace" aria-label="账号转换工作台">
-        <div className="workspace-bar"><div className="mode-tabs" role="group" aria-label="转换方向"><button aria-pressed={toSub} className={toSub ? 'mode-tab active' : 'mode-tab'} onClick={() => switchMode('cpa-to-sub2api')}>CPA <ArrowRight size={16} /> sub2api</button><button aria-pressed={!toSub} className={!toSub ? 'mode-tab active' : 'mode-tab'} onClick={() => switchMode('sub2api-to-cpa')}>sub2api <ArrowRight size={16} /> CPA</button></div><span className="format-label">{toSub ? '导入 sub2api' : '导入 CLIProxyAPI'}</span></div>
+        <div className="workspace-bar"><div className="mode-tabs" role="group" aria-label="转换方向"><button aria-pressed={toSub} className={toSub ? 'mode-tab active' : 'mode-tab'} onClick={() => switchMode('cpa-to-sub2api')}><span className="tab-number" aria-hidden="true">01</span> CPA <ArrowRight size={14} /> sub2api</button><button aria-pressed={!toSub} className={!toSub ? 'mode-tab active' : 'mode-tab'} onClick={() => switchMode('sub2api-to-cpa')}><span className="tab-number" aria-hidden="true">02</span> sub2api <ArrowRight size={14} /> CPA</button></div><span className="format-label">{toSub ? '导入 sub2api' : '导入 CLIProxyAPI'}</span></div>
 
         <div className="editor-grid">
           <section className="input-pane" aria-labelledby="import-title">

@@ -1,10 +1,15 @@
 :root {
-  --page: #f6f7f0;
-  --surface: #fffefb;
-  --ink: #26392c;
-  --muted: #65715c;
-  --green: #203c2e;
-  --line: #e4e8dc;
+  --page: #fafaf8;
+  --surface: #ffffff;
+  --ink: #1a1614;
+  --muted: #6b6660;
+  --accent: #ff5722;
+  --action: #d13d16;
+  --accent-ink: #bc3715;
+  --accent-soft: #fef4f1;
+  --accent-line: #ffcfbe;
+  --line: #e8e6e0;
+  --line-soft: #f0eeea;
   --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }

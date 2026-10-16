@@ -43,3 +43,10 @@ Append-only history for wiki updates caused by scope work, implementation closeo
 - Pages: .wiki/concepts/architecture.md, .wiki/how-to/cloudflare-pages.md
 - Verification: pnpm check PASS: 73 unit tests; browser:smoke: 7 PASS; production asset parity, security headers and live-browser copy/conversion/mobile acceptance PASS
 - Residual risk: Live checks use synthetic accounts; provider authentication remains outside this copy-only change.
+
+## 2026-10-16T13:58:17Z [specimen-ui]
+
+- Summary: Documented Specimen-inspired visual tokens, responsive workspace and accessible orange controls.
+- Pages: .wiki/concepts/architecture.md
+- Verification: pnpm check; pnpm verify:dist; pnpm browser:smoke; wiki-note impact/rebuild/lint
+- Residual risk: Local implementation only; not published or deployed.

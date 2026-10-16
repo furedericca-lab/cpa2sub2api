@@ -17,6 +17,60 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test('Specimen styling keeps controls and results usable across viewport sizes', async ({ page }) => {
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto('/');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(250, 250, 248)');
+    await expect(page.locator('h1 > span')).toHaveCSS('color', 'rgb(255, 87, 34)');
+    await expect(page.locator('h1')).toHaveCSS('font-style', 'italic');
+    const forward = page.getByRole('button', { name: 'CPA sub2api', exact: true });
+    const reverse = page.getByRole('button', { name: 'sub2api CPA', exact: true });
+    await expect(forward).toHaveAttribute('aria-pressed', 'true');
+    await expect(forward).toHaveCSS('color', 'rgb(188, 55, 21)');
+    expect(await forward.evaluate((node) => getComputedStyle(node, '::after').backgroundColor)).toBe('rgb(255, 87, 34)');
+    const convert = page.getByRole('button', { name: '开始转换' });
+    await expect(convert).toBeDisabled();
+    await expect(convert).toHaveCSS('background-color', 'rgb(241, 238, 234)');
+    await page.getByLabel('源 JSON 内容').fill(JSON.stringify([cpaFixture('codex'), cpaFixture('antigravity')]));
+    await expect(convert).toBeEnabled();
+    await expect(convert).toHaveCSS('background-color', 'rgb(209, 61, 22)');
+    const contrast = await convert.evaluate((node) => {
+      const luminance = (color: string) => {
+        const channels = color.match(/\d+/g)!.slice(0, 3).map(Number).map((value) => {
+          const channel = value / 255;
+          return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4;
+        });
+        return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+      };
+      const style = getComputedStyle(node);
+      return (luminance(style.color) + .05) / (luminance(style.backgroundColor) + .05);
+    });
+    expect(contrast).toBeGreaterThanOrEqual(4.5);
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => getComputedStyle(document.activeElement!).outlineStyle)).toBe('solid');
+    await convert.click();
+    await expect(page.locator('.entry.selected')).toHaveCount(2);
+    await expect(page.locator('.entry').first()).toHaveCSS('border-top-color', 'rgb(255, 207, 190)');
+    await page.getByRole('button', { name: '预览 JSON' }).first().click();
+    await expect(page.locator('.preview-panel')).toHaveCSS('background-color', 'rgb(247, 247, 245)');
+    const panes = await page.locator('.input-pane, .output-pane').evaluateAll((nodes) => nodes.map((node) => {
+      const bounds = node.getBoundingClientRect();
+      return { x: bounds.x, y: bounds.y };
+    }));
+    if (width <= 680) expect(panes[1].y).toBeGreaterThan(panes[0].y);
+    else expect(panes[1].x).toBeGreaterThan(panes[0].x);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.getByRole('button', { name: '使用说明', exact: true }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    expect(await page.getByRole('dialog').evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
+    await page.keyboard.press('Escape');
+    await reverse.click();
+    await expect(reverse).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByText('等待转换')).toBeVisible();
+  }
+});
+
 test('desktop local-only conversion, privacy, selection, merged download and reload', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1080 });
   const errors: string[] = [];

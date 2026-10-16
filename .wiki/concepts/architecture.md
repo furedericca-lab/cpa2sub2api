@@ -7,13 +7,16 @@ related_files:
   - src/conversion/
   - front/src/App.tsx
   - front/src/components/ConversionGuide.tsx
+  - front/src/tokens.css
+  - front/src/styles.css
+  - front/public/favicon.svg
   - front/index.html
   - front/src/lib/settings.ts
   - front/public/_headers
   - pnpm-workspace.yaml
 tags: [architecture, privacy]
 last_checked: 2026-10-16
-updated: 2026-10-16T13:26:21Z
+updated: 2026-10-16T13:54:46Z
 ---
 
 # Browser-Local Architecture
@@ -79,6 +82,25 @@ account types, file limits and settings that require attention after import.
 Keep local processing, refresh clearing, masked clipboard behavior and sensitive
 downloads explicit in their relevant contexts. These are wording conventions;
 provider mappings and credential handling are unchanged.
+
+## Visual Language
+
+The standalone workspace follows the user's Specimen userscript reference:
+warm-white surfaces, warm gray dividers, orange accents, an italic title,
+numbered underline navigation, outlined secondary controls and pale code panels.
+`front/src/tokens.css` owns shared colors; `front/src/styles.css` owns component
+and responsive states. Keep `#ff5722` for large type, icons and accents. Primary
+buttons use deeper orange `#d13d16` so small white labels exceed 4.5:1 contrast;
+small orange text uses `#bc3715`. Provider colors remain identity cues rather
+than a competing application theme. Fonts are local system fallbacks, with no
+network font requests. The reference's payment, session and proxy behavior is
+not part of this application.
+
+Desktop uses a two-pane input/result workbench; at 680px and below the panes
+stack. Numbered direction buttons retain their original accessible names and
+pressed state. Disabled actions are neutral, selected accounts have pale orange
+borders and keyboard focus uses a visible dark-orange outline. The help dialog
+uses the same surfaces, typography and notice treatment.
 
 ## Verification
 

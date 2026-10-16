@@ -32,6 +32,14 @@
     ],
     "symbols": {}
   },
+  "front/public/favicon.svg": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
   "front/src/App.tsx": {
     "anchors": [],
     "definition_pages": [],
@@ -49,6 +57,22 @@
     "symbols": {}
   },
   "front/src/lib/settings.ts": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
+  "front/src/styles.css": {
+    "anchors": [],
+    "definition_pages": [],
+    "pages": [
+      ".wiki/concepts/architecture.md"
+    ],
+    "symbols": {}
+  },
+  "front/src/tokens.css": {
     "anchors": [],
     "definition_pages": [],
     "pages": [
